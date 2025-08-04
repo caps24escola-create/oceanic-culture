@@ -1,9 +1,9 @@
 {
   "name": "node-express-api",
-  "description": "Simple api sample in Node",
+  "description": "Simple aplication",
   "version": "1.0.0",
   "private": true,
-  "main": "index.js",
+  "main": "app.js",
   "type": "module",
   "scripts": {
     "dev": "nodemon index.js",

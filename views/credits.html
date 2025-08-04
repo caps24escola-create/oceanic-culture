@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Créditos - Equipe do Oceano</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0074D9 0%, #001f3f 50%, #001122 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animação das ondas de fundo */
+        .waves {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,60 C200,100 400,20 600,60 C800,100 1000,20 1200,60 L1200,120 L0,120 Z" fill="%23ffffff10"/></svg>') repeat-x;
+            animation: wave 3s linear infinite;
+        }
+
+        .waves::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,80 C300,120 900,40 1200,80 L1200,120 L0,120 Z" fill="%23ffffff08"/></svg>') repeat-x;
+            animation: wave 4s linear infinite reverse;
+        }
+
+        @keyframes wave {
+            0% { background-position: 0 0; }
+            100% { background-position: 1200px 0; }
+        }
+
+        /* Bolhas flutuantes */
+        .bubble {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s infinite ease-in-out;
+        }
+
+        .bubble:nth-child(1) { width: 20px; height: 20px; left: 10%; animation-delay: 0s; }
+        .bubble:nth-child(2) { width: 30px; height: 30px; left: 20%; animation-delay: 1s; }
+        .bubble:nth-child(3) { width: 25px; height: 25px; left: 70%; animation-delay: 2s; }
+        .bubble:nth-child(4) { width: 15px; height: 15px; left: 80%; animation-delay: 3s; }
+        .bubble:nth-child(5) { width: 35px; height: 35px; left: 90%; animation-delay: 4s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(100vh) scale(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) scale(1); }
+        }
+
+        /* Container principal */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Título principal */
+        .main-title {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: #00D4FF;
+            text-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+            margin-bottom: 30px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 30px rgba(0, 212, 255, 0.5); }
+            to { text-shadow: 0 0 50px rgba(0, 212, 255, 0.8); }
+        }
+
+        /* Subtítulo */
+        .subtitle {
+            font-size: 1.3rem;
+            color: #B8E6FF;
+            margin-bottom: 50px;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        /* Seção de créditos */
+        .credits-section {
+            margin-bottom: 50px;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: #FFFFFF;
+            margin-bottom: 25px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(45deg, #00A8CC, #00D4FF);
+            border-radius: 2px;
+        }
+
+        /* Cards dos membros */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .member-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 15px;
+            padding: 25px 20px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .member-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.1), transparent);
+            transition: left 0.6s;
+        }
+
+        .member-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 212, 255, 0.6);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
+        }
+
+        .member-card:hover::before {
+            left: 100%;
+        }
+
+        .member-emoji {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            display: block;
+            animation: swim 3s ease-in-out infinite;
+        }
+
+        .member-card:nth-child(even) .member-emoji {
+            animation-direction: reverse;
+        }
+
+        @keyframes swim {
+            0%, 100% { transform: translateX(-5px) rotate(-2deg); }
+            50% { transform: translateX(5px) rotate(2deg); }
+        }
+
+        .member-name {
+            font-size: 1.4rem;
+            color: #FFFFFF;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        /* Seção de ferramentas */
+        .tools-section {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(0, 212, 255, 0.2);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            margin-bottom: 40px;
+        }
+
+        .tool-category {
+            margin-bottom: 25px;
+        }
+
+        .tool-category:last-child {
+            margin-bottom: 0;
+        }
+
+        .tool-title {
+            font-size: 1.3rem;
+            color: #00D4FF;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .tool-description {
+            color: #B8E6FF;
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+
+        /* Botão de volta */
+        .back-button {
+            background: linear-gradient(45deg, #00A8CC, #0074D9);
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 116, 217, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 116, 217, 0.5);
+        }
+
+        .back-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .back-button:hover::before {
+            left: 100%;
+        }
+
+        /* Elementos decorativos */
+        .seaweed {
+            position: absolute;
+            bottom: 0;
+            width: 30px;
+            height: 150px;
+            background: linear-gradient(to top, #0a6b42, #2d8f5a);
+            border-radius: 15px 15px 0 0;
+            animation: sway 3s ease-in-out infinite;
+        }
+
+        .seaweed:nth-child(1) { left: 5%; animation-delay: 0s; }
+        .seaweed:nth-child(2) { right: 10%; animation-delay: 1s; height: 120px; }
+        .seaweed:nth-child(3) { left: 15%; animation-delay: 2s; height: 180px; }
+
+        @keyframes sway {
+            0%, 100% { transform: rotate(-10deg); }
+            50% { transform: rotate(10deg); }
+        }
+
+        /* Coral decorativo */
+        .coral {
+            position: absolute;
+            bottom: 20px;
+            right: 5%;
+            font-size: 60px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .team-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 15px;
+            }
+            
+            .member-card {
+                padding: 20px 15px;
+            }
+            
+            .member-emoji {
+                font-size: 2rem;
+            }
+            
+            .member-name {
+                font-size: 1.2rem;
+            }
+            
+            .tools-section {
+                padding: 20px;
+            }
+
+            .container {
+                padding: 20px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Bolhas animadas -->
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+
+    <!-- Ondas de fundo -->
+    <div class="waves"></div>
+
+    <!-- Algas marinhas -->
+    <div class="seaweed"></div>
+    <div class="seaweed"></div>
+    <div class="seaweed"></div>
+
+    <!-- Coral -->
+    <div class="coral">🪸</div>
+
+    <!-- Container principal -->
+    <div class="container">
+        <h1 class="main-title">🌊 Créditos 🌊</h1>
+        
+        <p class="subtitle">
+            Mergulhe fundo e conheça a equipe que navegou por estas águas digitais
+        </p>
+
+        <!-- Seção da Equipe -->
+        <div class="credits-section">
+            <h2 class="section-title">⚓ Tripulação do Projeto</h2>
+            <div class="team-grid">
+                <div class="member-card">
+                    <span class="member-emoji">🐠</span>
+                    <div class="member-name">Alexandre</div>
+                </div>
+                <div class="member-card">
+                    <span class="member-emoji">🐙</span>
+                    <div class="member-name">Diego</div>
+                </div>
+                <div class="member-card">
+                    <span class="member-emoji">🦞</span>
+                    <div class="member-name">Eduardo</div>
+                </div>
+                <div class="member-card">
+                    <span class="member-emoji">🦈</span>
+                    <div class="member-name">Felippe</div>
+                </div>
+                <div class="member-card">
+                    <span class="member-emoji">🐢</span>
+                    <div class="member-name">Karlos</div>
+                </div>
+                <div class="member-card">
+                    <span class="member-emoji">🐡</span>
+                        <div class="member-name">Matheus</div>
+                </div>
+                <div class="member-card">
+                    <span class="member-emoji">🦑</span>
+                    <div class="member-name">Lucas</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção de Ferramentas -->
+        <div class="credits-section">
+            <h2 class="section-title">🔧 Ferramentas Utilizadas</h2>
+            <div class="tools-section">
+                <div class="tool-category">
+                    <div class="tool-title">🎨 Design Interativo</div>
+                    <div class="tool-description">Claude AI & z.ai GLM</div>
+                </div>
+                <div class="tool-category">
+                    <div class="tool-title">📝 Gramatica e Revisão de Conteúdo</div>
+                    <div class="tool-description">Gemini</div>
+                </div>
+            </div>
+        </div>
+
+        <a href="/" class="back-button">
+            🏠 Voltar ao Início
+        </a>
+    </div>
+
+    <script>
+        // Adiciona movimento aos cards quando o mouse se move
+        document.addEventListener('mousemove', function(e) {
+            const cards = document.querySelectorAll('.member-card');
+            const x = (e.clientX / window.innerWidth) * 10 - 5;
+            const y = (e.clientY / window.innerHeight) * 5 - 2.5;
+            
+            cards.forEach((card, index) => {
+                const delay = index * 0.1;
+                setTimeout(() => {
+                    card.style.transform = `translate(${x * 0.5}px, ${y * 0.5}px)`;
+                }, delay * 100);
+            });
+        });
+
+        // Cria mais bolhas dinamicamente
+        function createBubble() {
+            const bubble = document.createElement('div');
+            bubble.className = 'bubble';
+            bubble.style.left = Math.random() * 100 + '%';
+            bubble.style.width = bubble.style.height = (Math.random() * 30 + 10) + 'px';
+            bubble.style.animationDuration = (Math.random() * 3 + 4) + 's';
+            bubble.style.animationDelay = Math.random() * 2 + 's';
+            
+            document.body.appendChild(bubble);
+            
+            setTimeout(() => {
+                bubble.remove();
+            }, 8000);
+        }
+
+        // Cria nova bolha a cada 3 segundos
+        setInterval(createBubble, 3000);
+
+        // Efeito de entrada animada para os cards
+        window.addEventListener('load', function() {
+            const cards = document.querySelectorAll('.member-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(50px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, (index + 1) * 200);
+            });
+        });
+    </script>
+</body>
+</html>

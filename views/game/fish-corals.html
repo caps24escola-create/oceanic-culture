@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oceanic Flappy Fish</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(180deg, #1e3c72 0%, #2a5298 50%, #0f4c75 100%);
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #gameContainer {
+            position: relative;
+            width: 800px;
+            height: 600px;
+            background: linear-gradient(180deg, #87CEEB 0%, #4682B4 30%, #1e3c72 70%, #0f2027 100%);
+            border: 3px solid #00416A;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0, 150, 255, 0.5);
+        }
+
+        #fish {
+            position: absolute;
+            width: 60px;
+            height: 40px;
+            left: 100px;
+            background: linear-gradient(45deg, #FF6B35, #F7931E);
+            border-radius: 50% 10px 50% 10px;
+            transition: transform 0.1s;
+            z-index: 10;
+        }
+
+        #fish::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: -15px;
+            width: 0;
+            height: 0;
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            border-right: 20px solid #FF6B35;
+        }
+
+        #fish::after {
+            content: '';
+            position: absolute;
+            top: 10px;
+            right: 8px;
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .obstacle {
+            position: absolute;
+            width: 80px;
+            background: linear-gradient(45deg, #8B4513, #A0522D);
+            border: 2px solid #654321;
+            border-radius: 10px;
+        }
+
+        .obstacle.top {
+            top: 0;
+            border-radius: 0 0 10px 10px;
+        }
+
+        .obstacle.bottom {
+            bottom: 0;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .coral {
+            position: absolute;
+            width: 40px;
+            height: 80px;
+            background: linear-gradient(45deg, #FF69B4, #FF1493);
+            border-radius: 50% 50% 10px 10px;
+            bottom: 0;
+        }
+
+        .seaweed {
+            position: absolute;
+            width: 20px;
+            background: linear-gradient(180deg, #228B22, #32CD32);
+            border-radius: 10px 10px 0 0;
+            bottom: 0;
+            animation: sway 3s ease-in-out infinite;
+        }
+
+        @keyframes sway {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        .bubble {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) scale(0.8); opacity: 0.7; }
+            50% { transform: translateY(-50px) scale(1); opacity: 1; }
+            100% { transform: translateY(-100px) scale(0.6); opacity: 0; }
+        }
+
+        #score {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+            z-index: 100;
+        }
+
+        #gameOver {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 30px;
+            border-radius: 15px;
+            border: 3px solid #00416A;
+            display: none;
+            z-index: 1000;
+        }
+
+        #startScreen {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 40px;
+            border-radius: 15px;
+            border: 3px solid #00416A;
+            z-index: 1000;
+        }
+
+        button {
+            background: linear-gradient(45deg, #00416A, #0f4c75);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 18px;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            background: linear-gradient(45deg, #0f4c75, #00416A);
+            transform: scale(1.05);
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+        }
+
+        .instruction {
+            font-size: 16px;
+            margin: 15px 0;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <div id="fish"></div>
+        <div id="score">Pontuação: 0</div>
+        
+        <div id="startScreen">
+            <h1>🐠 Oceanic Flappy Fish 🌊</h1>
+            <p class="instruction">Ajude o peixinho a nadar pelos obstáculos do fundo do mar!</p>
+            <p class="instruction">Pressione ESPAÇO ou clique para nadar para cima</p>
+            <p class="instruction">Evite os corais e rochas marinhas</p>
+            <button onclick="startGame()">🏊‍♂️ Começar Aventura</button>
+        </div>
+
+        <div id="gameOver">
+            <h2>🐟 Fim da Aventura! 🌊</h2>
+            <p id="finalScore">Pontuação Final: 0</p>
+            <p>O peixinho foi capturado pelos obstáculos do oceano!</p>
+            <button onclick="restartGame()">🔄 Tentar Novamente</button>
+        </div>
+    </div>
+
+    <script>
+        let game = {
+            fish: null,
+            obstacles: [],
+            decorations: [],
+            bubbles: [],
+            score: 0,
+            gameRunning: false,
+            fishY: 300,
+            fishVelocity: 0,
+            gravity: 0.6,
+            jumpPower: -12,
+            gameSpeed: 3,
+            obstacleGap: 180,
+            lastObstacle: 800
+        };
+
+        function init() {
+            game.fish = document.getElementById('fish');
+            createDecorations();
+            createBubbles();
+            updateFishPosition();
+        }
+
+        function createDecorations() {
+            // Criar algas marinhas
+            for (let i = 0; i < 8; i++) {
+                const seaweed = document.createElement('div');
+                seaweed.className = 'seaweed';
+                seaweed.style.left = Math.random() * 800 + 'px';
+                seaweed.style.height = (60 + Math.random() * 40) + 'px';
+                seaweed.style.animationDelay = Math.random() * 3 + 's';
+                document.getElementById('gameContainer').appendChild(seaweed);
+                game.decorations.push(seaweed);
+            }
+
+            // Criar corais decorativos
+            for (let i = 0; i < 5; i++) {
+                const coral = document.createElement('div');
+                coral.className = 'coral';
+                coral.style.left = Math.random() * 800 + 'px';
+                coral.style.height = (50 + Math.random() * 30) + 'px';
+                document.getElementById('gameContainer').appendChild(coral);
+                game.decorations.push(coral);
+            }
+        }
+
+        function createBubbles() {
+            setInterval(() => {
+                if (game.gameRunning && game.bubbles.length < 10) {
+                    const bubble = document.createElement('div');
+                    bubble.className = 'bubble';
+                    const size = 10 + Math.random() * 20;
+                    bubble.style.width = size + 'px';
+                    bubble.style.height = size + 'px';
+                    bubble.style.left = Math.random() * 800 + 'px';
+                    bubble.style.bottom = '0px';
+                    document.getElementById('gameContainer').appendChild(bubble);
+                    game.bubbles.push(bubble);
+
+                    setTimeout(() => {
+                        if (bubble.parentNode) {
+                            bubble.parentNode.removeChild(bubble);
+                            game.bubbles = game.bubbles.filter(b => b !== bubble);
+                        }
+                    }, 4000);
+                }
+            }, 800);
+        }
+
+        function startGame() {
+            document.getElementById('startScreen').style.display = 'none';
+            game.gameRunning = true;
+            game.fishY = 300;
+            game.fishVelocity = 0;
+            game.score = 0;
+            game.obstacles = [];
+            game.lastObstacle = 800;
+            updateScore();
+            gameLoop();
+        }
+
+        function restartGame() {
+            document.getElementById('gameOver').style.display = 'none';
+            // Limpar obstáculos existentes
+            game.obstacles.forEach(obs => {
+                if (obs.top && obs.top.parentNode) obs.top.parentNode.removeChild(obs.top);
+                if (obs.bottom && obs.bottom.parentNode) obs.bottom.parentNode.removeChild(obs.bottom);
+            });
+            startGame();
+        }
+
+        function jump() {
+            if (game.gameRunning) {
+                game.fishVelocity = game.jumpPower;
+                game.fish.style.transform = 'rotate(-20deg)';
+                setTimeout(() => {
+                    if (game.gameRunning) {
+                        game.fish.style.transform = 'rotate(0deg)';
+                    }
+                }, 150);
+            }
+        }
+
+        function createObstacle() {
+            const gapStart = 100 + Math.random() * 300;
+            
+            const topObstacle = document.createElement('div');
+            topObstacle.className = 'obstacle top';
+            topObstacle.style.left = '800px';
+            topObstacle.style.height = gapStart + 'px';
+            
+            const bottomObstacle = document.createElement('div');
+            bottomObstacle.className = 'obstacle bottom';
+            bottomObstacle.style.left = '800px';
+            bottomObstacle.style.height = (600 - gapStart - game.obstacleGap) + 'px';
+            
+            document.getElementById('gameContainer').appendChild(topObstacle);
+            document.getElementById('gameContainer').appendChild(bottomObstacle);
+            
+            game.obstacles.push({
+                top: topObstacle,
+                bottom: bottomObstacle,
+                x: 800,
+                scored: false
+            });
+        }
+
+        function updateObstacles() {
+            // Criar novos obstáculos
+            if (game.lastObstacle <= 500) {
+                createObstacle();
+                game.lastObstacle = 800;
+            } else {
+                game.lastObstacle -= game.gameSpeed;
+            }
+
+            // Mover obstáculos existentes
+            for (let i = game.obstacles.length - 1; i >= 0; i--) {
+                const obstacle = game.obstacles[i];
+                obstacle.x -= game.gameSpeed;
+                
+                obstacle.top.style.left = obstacle.x + 'px';
+                obstacle.bottom.style.left = obstacle.x + 'px';
+                
+                // Verificar pontuação
+                if (!obstacle.scored && obstacle.x < 100) {
+                    obstacle.scored = true;
+                    game.score++;
+                    updateScore();
+                }
+                
+                // Remover obstáculos fora da tela
+                if (obstacle.x < -100) {
+                    obstacle.top.parentNode.removeChild(obstacle.top);
+                    obstacle.bottom.parentNode.removeChild(obstacle.bottom);
+                    game.obstacles.splice(i, 1);
+                }
+                
+                // Verificar colisão
+                if (checkCollision(obstacle)) {
+                    gameOver();
+                    return;
+                }
+            }
+        }
+
+        function checkCollision(obstacle) {
+            const fishLeft = 100;
+            const fishRight = 160;
+            const fishTop = game.fishY;
+            const fishBottom = game.fishY + 40;
+            
+            const obsLeft = obstacle.x;
+            const obsRight = obstacle.x + 80;
+            
+            if (fishRight > obsLeft && fishLeft < obsRight) {
+                const topObsBottom = parseInt(obstacle.top.style.height);
+                const bottomObsTop = 600 - parseInt(obstacle.bottom.style.height);
+                
+                if (fishTop < topObsBottom || fishBottom > bottomObsTop) {
+                    return true;
+                }
+            }
+            
+            return false;
+        }
+
+        function updateFishPosition() {
+            game.fishVelocity += game.gravity;
+            game.fishY += game.fishVelocity;
+            
+            // Rotação baseada na velocidade
+            const rotation = Math.max(-30, Math.min(30, game.fishVelocity * 2));
+            game.fish.style.transform = `rotate(${rotation}deg)`;
+            
+            game.fish.style.top = game.fishY + 'px';
+            
+            // Verificar limites da tela
+            if (game.fishY < 0 || game.fishY > 560) {
+                gameOver();
+            }
+        }
+
+        function updateScore() {
+            document.getElementById('score').textContent = 'Pontuação: ' + game.score;
+        }
+
+        function gameOver() {
+            game.gameRunning = false;
+            document.getElementById('finalScore').textContent = 'Pontuação Final: ' + game.score;
+            document.getElementById('gameOver').style.display = 'block';
+        }
+
+        function gameLoop() {
+            if (!game.gameRunning) return;
+            
+            updateFishPosition();
+            updateObstacles();
+            
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Event listeners
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                jump();
+            }
+        });
+
+        document.getElementById('gameContainer').addEventListener('click', jump);
+
+        // Inicializar o jogo
+        init();
+    </script>
+</body>
+</html>

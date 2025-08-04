@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cultura Oceânica - Projeto Dia da Tecnologia</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0a2a43, #1d5b79, #2e8bc0);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%2300c8ff" fill-opacity="0.1" d="M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,213.3C672,192,768,128,864,128C960,128,1056,192,1152,208C1248,224,1344,192,1392,176L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-size: cover;
+            background-position: bottom;
+            opacity: 0.3;
+            z-index: -1;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+        }
+        
+        .event-date {
+            background-color: rgba(0, 123, 167, 0.7);
+            display: inline-block;
+            padding: 8px 25px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            backdrop-filter: blur(5px);
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(to right, #a8edea, #fed6e3);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .subtitle {
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            color: #c2f0ff;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .ocean-waves {
+            height: 150px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%2300c8ff" fill-opacity="0.3" d="M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,213.3C672,192,768,128,864,128C960,128,1056,192,1152,208C1248,224,1344,192,1392,176L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-size: cover;
+            background-position: center;
+            margin: 20px 0;
+        }
+        
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .intro {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(2, 27, 48, 0.7);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(64, 224, 208, 0.3);
+        }
+        
+        .intro h2 {
+            color: #40e0d0;
+            margin-bottom: 20px;
+            font-size: 2.2rem;
+        }
+        
+        .intro p {
+            line-height: 1.8;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+        
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .redirect-button {
+            background: linear-gradient(135deg, #1a5f7a, #1597bb);
+            border: none;
+            padding: 25px;
+            border-radius: 15px;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .redirect-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(135deg, #1597bb, #1a5f7a);
+        }
+        
+        .redirect-button i {
+            margin-right: 15px;
+            font-size: 2rem;
+            vertical-align: middle;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 50px 0;
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .feature-card i {
+            font-size: 3rem;
+            color: #40e0d0;
+            margin-bottom: 20px;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: #a8edea;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+            background: rgba(2, 27, 48, 0.7);
+            border-top: 2px solid #00c8ff;
+        }
+        
+        .copyright {
+            font-size: 1.1rem;
+            color: #c2f0ff;
+        }
+        
+        .copyright a {
+            color: #40e0d0;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .copyright a:hover {
+            color: #a8edea;
+            text-decoration: underline;
+        }
+        
+        .marine-life {
+            display: flex;
+            justify-content: space-around;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+        
+        .marine-item {
+            animation: float 6s ease-in-out infinite;
+            font-size: 3rem;
+            opacity: 0.7;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .subtitle { font-size: 1.4rem; }
+            .redirect-button { font-size: 1.2rem; padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="event-date">
+                Dia da Tecnologia • 15 de agosto
+            </div>
+            <h1>Cultura Oceânica</h1>
+            <div class="subtitle">
+                Explorando as profundezas do patrimônio marinho por meio da tecnologia
+            </div>
+        </header>
+        
+        <div class="ocean-waves"></div>
+        
+        <div class="content">
+            <div class="intro">
+                <h2>Bem vindo ao nosso projeto</h2>
+                <p>Mergulhe nas maravilhas das culturas oceânicas do mundo todo! Nosso projeto do Dia da Tecnologia explora como comunidades indígenas vivem em harmonia com o mar há séculos, preservando tradições, conhecimentos e práticas sustentáveis únicos.</p>
+                <p>Por meio de exposições interativas, apresentações digitais e atividades práticas, mostraremos como a tecnologia pode ajudar a preservar e celebrar esses tesouros culturais inestimáveis.</p>
+                <p>Junte-se a nós no dia 15 de agosto para vivenciar a herança cultural do oceano como nunca antes!</p>
+            </div>
+            
+            <div class="button-container">
+                <button class="redirect-button" onclick="window.location.href='/game/ocean-cleaning'">
+                    <i class="fa-solid fa-arrow-up-from-water-pump"></i> Jogo - Limpeza Marítima
+                </button>
+                
+                <button class="redirect-button" onclick="window.location.href='/game/fish-corals'">
+                    <i class="fas fa-fish"></i> Jogo - Peixe em Coral-city
+                </button>
+                
+                <button class="redirect-button" onclick="window.location.href='/game/oceanic-memory'">
+                    <i class="fas fa-brain"></i> Jogo - Memória Oceânica
+                </button>
+
+                <button class="redirect-button" onclick="window.location.href='/credits'">
+                    <i class="fas fa-user-group"></i> Projeto - Grupo de Estudantes
+                </button>
+            </div>
+        </div>
+        
+        <div class="ocean-waves"></div>
+        
+        <div class="marine-life">
+            <div class="marine-item" style="animation-delay: 0s;">🐠</div>
+            <div class="marine-item" style="animation-delay: 1s;">🐢</div>
+            <div class="marine-item" style="animation-delay: 2s;">🐙</div>
+            <div class="marine-item" style="animation-delay: 3s;">🐋</div>
+            <div class="marine-item" style="animation-delay: 4s;">🦈</div>
+        </div>
+        
+        <div class="features">
+            <div class="feature-card">
+                <i class="fas fa-water"></i>
+                <h3>Exposições Culturais</h3>
+                <p>Descubra técnicas tradicionais de pesca, métodos de navegação e folclore marinho dos habitantes das ilhas do Pacífico e comunidades costeiras.</p>
+            </div>
+            
+            <div class="feature-card">
+                <i class="fas fa-laptop-code"></i>
+                <h3>Inovações tecnológicas</h3>
+                <p>Veja como a tecnologia moderna ajuda a preservar artefatos culturais e documentar histórias orais de tradições oceânicas.</p>
+            </div>
+            
+            <div class="feature-card">
+                <i class="fas fa-hands-helping"></i>
+                <h3>Sustentabilidade</h3>
+                <p>Aprenda sobre práticas sustentáveis antigas que podem inspirar soluções modernas para a conservação dos oceanos.</p>
+            </div>
+        </div>
+        
+        <footer>
+            <p class="copyright">
+                <a href="/credits">© Dia da Tecnologia 2025 - Projeto Cultura Oceânica</a>
+            </p>
+            <p>Criado por estudantes da EOH</p>
+        </footer>
+    </div>
+
+    <script>
+        // Simple animation enhancement
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.redirect-button');
+            
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 200);
+                });
+            });
+            
+            // Add ripple effect to buttons
+            buttons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    let x = e.clientX - e.target.getBoundingClientRect().left;
+                    let y = e.clientY - e.target.getBoundingClientRect().top;
+                    
+                    let ripple = document.createElement('span');
+                    ripple.classList.add('ripple');
+                    ripple.style.left = x + 'px';
+                    ripple.style.top = y + 'px';
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

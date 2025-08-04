@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Perdido no Oceano</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0074D9 0%, #001f3f 50%, #001122 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animação das ondas de fundo */
+        .waves {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,60 C200,100 400,20 600,60 C800,100 1000,20 1200,60 L1200,120 L0,120 Z" fill="%23ffffff10"/></svg>') repeat-x;
+            animation: wave 3s linear infinite;
+        }
+
+        .waves::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,80 C300,120 900,40 1200,80 L1200,120 L0,120 Z" fill="%23ffffff08"/></svg>') repeat-x;
+            animation: wave 4s linear infinite reverse;
+        }
+
+        @keyframes wave {
+            0% { background-position: 0 0; }
+            100% { background-position: 1200px 0; }
+        }
+
+        /* Bolhas flutuantes */
+        .bubble {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s infinite ease-in-out;
+        }
+
+        .bubble:nth-child(1) { width: 20px; height: 20px; left: 10%; animation-delay: 0s; }
+        .bubble:nth-child(2) { width: 30px; height: 30px; left: 20%; animation-delay: 1s; }
+        .bubble:nth-child(3) { width: 25px; height: 25px; left: 70%; animation-delay: 2s; }
+        .bubble:nth-child(4) { width: 15px; height: 15px; left: 80%; animation-delay: 3s; }
+        .bubble:nth-child(5) { width: 35px; height: 35px; left: 90%; animation-delay: 4s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(100vh) scale(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) scale(1); }
+        }
+
+        /* Container principal */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Peixe animado */
+        .fish {
+            width: 120px;
+            height: 80px;
+            margin-bottom: 30px;
+            position: relative;
+            animation: swim 4s ease-in-out infinite;
+        }
+
+        .fish::before {
+            content: '🐠';
+            font-size: 80px;
+            display: block;
+            filter: drop-shadow(0 0 20px rgba(0, 150, 255, 0.5));
+        }
+
+        @keyframes swim {
+            0%, 100% { transform: translateX(-20px) rotate(-5deg); }
+            50% { transform: translateX(20px) rotate(5deg); }
+        }
+
+        /* Número 404 */
+        .error-code {
+            font-size: 8rem;
+            font-weight: bold;
+            color: #00D4FF;
+            text-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+            margin-bottom: 20px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 30px rgba(0, 212, 255, 0.5); }
+            to { text-shadow: 0 0 50px rgba(0, 212, 255, 0.8); }
+        }
+
+        /* Título */
+        .title {
+            font-size: 2.5rem;
+            color: #FFFFFF;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Subtítulo */
+        .subtitle {
+            font-size: 1.2rem;
+            color: #B8E6FF;
+            margin-bottom: 30px;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        /* Botão */
+        .home-button {
+            background: linear-gradient(45deg, #00A8CC, #0074D9);
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 116, 217, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .home-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 116, 217, 0.5);
+        }
+
+        .home-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .home-button:hover::before {
+            left: 100%;
+        }
+
+        /* Elementos decorativos */
+        .seaweed {
+            position: absolute;
+            bottom: 0;
+            width: 30px;
+            height: 150px;
+            background: linear-gradient(to top, #0a6b42, #2d8f5a);
+            border-radius: 15px 15px 0 0;
+            animation: sway 3s ease-in-out infinite;
+        }
+
+        .seaweed:nth-child(1) { left: 5%; animation-delay: 0s; }
+        .seaweed:nth-child(2) { right: 10%; animation-delay: 1s; height: 120px; }
+        .seaweed:nth-child(3) { left: 15%; animation-delay: 2s; height: 180px; }
+
+        @keyframes sway {
+            0%, 100% { transform: rotate(-10deg); }
+            50% { transform: rotate(10deg); }
+        }
+
+        /* Coral decorativo */
+        .coral {
+            position: absolute;
+            bottom: 20px;
+            right: 5%;
+            font-size: 60px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .error-code {
+                font-size: 5rem;
+            }
+            
+            .title {
+                font-size: 2rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+                padding: 0 20px;
+            }
+            
+            .fish {
+                width: 80px;
+                height: 60px;
+            }
+            
+            .fish::before {
+                font-size: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Bolhas animadas -->
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+
+    <!-- Ondas de fundo -->
+    <div class="waves"></div>
+
+    <!-- Algas marinhas -->
+    <div class="seaweed"></div>
+    <div class="seaweed"></div>
+    <div class="seaweed"></div>
+
+    <!-- Coral -->
+    <div class="coral">🪸</div>
+
+    <!-- Container principal -->
+    <div class="container">
+        <div class="fish"></div>
+        
+        <div class="error-code">404</div>
+        
+        <h1 class="title">Página Perdida no Oceano</h1>
+        
+        <p class="subtitle">
+            Parece que você navegou para águas desconhecidas! 🌊<br>
+            A página que você procura pode ter sido levada pela corrente marinha.
+        </p>
+        
+        <a href="/" class="home-button">
+            🏠 Voltar para a Superfície
+        </a>
+    </div>
+
+    <script>
+        // Adiciona movimento extra aos peixes quando o mouse se move
+        document.addEventListener('mousemove', function(e) {
+            const fish = document.querySelector('.fish');
+            const x = (e.clientX / window.innerWidth) * 20 - 10;
+            const y = (e.clientY / window.innerHeight) * 10 - 5;
+            
+            fish.style.transform = `translate(${x}px, ${y}px)`;
+        });
+
+        // Cria mais bolhas dinamicamente
+        function createBubble() {
+            const bubble = document.createElement('div');
+            bubble.className = 'bubble';
+            bubble.style.left = Math.random() * 100 + '%';
+            bubble.style.width = bubble.style.height = (Math.random() * 30 + 10) + 'px';
+            bubble.style.animationDuration = (Math.random() * 3 + 4) + 's';
+            bubble.style.animationDelay = Math.random() * 2 + 's';
+            
+            document.body.appendChild(bubble);
+            
+            setTimeout(() => {
+                bubble.remove();
+            }, 8000);
+        }
+
+        // Cria nova bolha a cada 3 segundos
+        setInterval(createBubble, 3000);
+    </script>
+</body>
+</html>
