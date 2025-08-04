@@ -6,8 +6,8 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon index.js",
-    "start": "node index.js"
+    "dev": "nodemon app.js",
+    "start": "node app.js"
   },
   "author": "Google LLC",
   "license": "Apache-2.0",
