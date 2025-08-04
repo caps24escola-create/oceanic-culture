@@ -75,7 +75,7 @@
         </div>
         
         <div id="instructions">
-            WASD/Setas: Mover | E: Coletar lixo | R: Reiniciar
+            WASD/Setas: Mover | E/Espaço: Coletar lixo | R: Reiniciar
         </div>
         
         <div id="gameOver">
@@ -144,8 +144,8 @@
             
             gameOverDiv.style.display = 'none';
             
-            // Criar peixes iniciais
-            for (let i = 0; i < 4; i++) {
+            // Criar peixes iniciais (o número foi reduzido de 4 para 2)
+            for (let i = 0; i < 2; i++) {
                 createFish();
             }
             
@@ -292,7 +292,7 @@
                         Math.pow(submarine.y + submarine.height/2 - (t.y + t.height/2), 2)
                     );
                     
-                    if (distance <= submarine.collectRange && keys['e']) {
+                    if (distance <= submarine.collectRange && (keys['e'] || keys[' '])) {
                         t.collected = true;
                         gameState.trashCollected++;
                         updateUI();
@@ -348,7 +348,8 @@
             }
             
             // Adicionar novos peixes ocasionalmente
-            if (Math.random() < 0.01) {
+            // A frequência foi reduzida de 0.01 para 0.005 para diminuir a quantidade de peixes
+            if (Math.random() < 0.005) {
                 createFish();
             }
         }
