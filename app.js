@@ -7,6 +7,9 @@ const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 const app = express();
 
+// Middleware para servir arquivos estáticos da pasta 'public'
+app.use(express.static(path.join(__dirname, 'views')));
+
 // Home page
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'home.html'));
@@ -33,10 +36,4 @@ app.get('/game/oceanic-memory', (req, res) => {
 // Error handling
 app.use((req, res) => {
   res.status(404).sendFile(path.join(__dirname, 'views', '404.html'));
-});
-
-
-const port = parseInt(process.env.PORT) || 3000;
-app.listen(port, () => {
-  console.log(`listening on port ${port}`);
 });
